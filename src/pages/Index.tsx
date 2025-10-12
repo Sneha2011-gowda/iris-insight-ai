@@ -139,16 +139,16 @@ const Index = () => {
   const hasCompletedAnalyses = imageAnalyses.some(a => a.analysisComplete);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-accent/5">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-card/80 backdrop-blur-sm">
+      <header className="border-b bg-card backdrop-blur-sm">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-primary">
               <Eye className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Iris Insight AI</h1>
+              <h1 className="text-2xl font-bold text-foreground">AI Retinal Disease Detection</h1>
               <p className="text-sm text-muted-foreground">Advanced Retinal Image Analysis</p>
             </div>
           </div>
@@ -160,7 +160,7 @@ const Index = () => {
           
           {/* Hero Section */}
           {imageAnalyses.length === 0 && (
-            <Card className="text-center bg-gradient-to-r from-card to-primary/5 border-primary/20">
+            <Card className="text-center bg-card border-primary/30">
               <CardContent className="pt-8 pb-8">
                 <div className="space-y-4">
                   <div className="flex justify-center">
