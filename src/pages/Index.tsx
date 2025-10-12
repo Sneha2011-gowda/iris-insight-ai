@@ -20,6 +20,12 @@ const Index = () => {
   const [analysisComplete, setAnalysisComplete] = useState(false);
   const [findings, setFindings] = useState<Finding[]>([]);
   const [overallRisk, setOverallRisk] = useState<"low" | "medium" | "high">("low");
+  const [metrics, setMetrics] = useState<{
+    accuracy: number;
+    precision: number;
+    recall: number;
+    f1Score: number;
+  } | null>(null);
 
   const handleImageSelect = (file: File) => {
     setSelectedImage(file);
@@ -31,6 +37,7 @@ const Index = () => {
     setSelectedImage(null);
     setAnalysisComplete(false);
     setFindings([]);
+    setMetrics(null);
   };
 
   const handleAnalyze = async () => {
@@ -71,6 +78,12 @@ const Index = () => {
 
     setFindings(mockFindings);
     setOverallRisk("low");
+    setMetrics({
+      accuracy: 94.5,
+      precision: 92.3,
+      recall: 89.7,
+      f1Score: 90.9
+    });
     setIsAnalyzing(false);
     setAnalysisComplete(true);
     toast.success("Analysis completed!");
@@ -210,6 +223,7 @@ const Index = () => {
                     findings={findings}
                     overallRisk={overallRisk}
                     isAnalyzing={isAnalyzing}
+                    metrics={metrics || undefined}
                   />
                 </>
               )}
