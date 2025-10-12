@@ -5,12 +5,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 interface ImageUploaderProps {
-  onImageSelect: (file: File) => void;
-  selectedImage: File | null;
-  onClearImage: () => void;
+  onImageSelect: (files: File[]) => void;
+  selectedImages: File[];
+  onClearImages: () => void;
+  onRemoveImage: (index: number) => void;
 }
 
-export const ImageUploader = ({ onImageSelect, selectedImage, onClearImage }: ImageUploaderProps) => {
+export const ImageUploader = ({ onImageSelect, selectedImages, onClearImages, onRemoveImage }: ImageUploaderProps) => {
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -29,49 +30,65 @@ export const ImageUploader = ({ onImageSelect, selectedImage, onClearImage }: Im
     setIsDragOver(false);
     
     const files = Array.from(e.dataTransfer.files);
-    const imageFile = files.find(file => file.type.startsWith('image/'));
+    const imageFiles = files.filter(file => file.type.startsWith('image/'));
     
-    if (imageFile) {
-      onImageSelect(imageFile);
+    if (imageFiles.length > 0) {
+      onImageSelect(imageFiles);
     }
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      onImageSelect(file);
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      onImageSelect(Array.from(files));
     }
   };
 
   return (
     <Card className="w-full">
       <CardContent className="p-6">
-        {selectedImage ? (
+        {selectedImages.length > 0 ? (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-foreground">Selected Image</h3>
+              <h3 className="text-lg font-semibold text-foreground">
+                Selected Images ({selectedImages.length})
+              </h3>
               <Button
                 variant="outline"
                 size="sm"
-                onClick={onClearImage}
+                onClick={onClearImages}
                 className="text-muted-foreground hover:text-foreground"
               >
                 <X className="h-4 w-4 mr-2" />
-                Clear
+                Clear All
               </Button>
             </div>
-            <div className="aspect-square w-full max-w-md mx-auto overflow-hidden rounded-lg border bg-muted">
-              <img
-                src={URL.createObjectURL(selectedImage)}
-                alt="Selected retinal image"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="text-center space-y-1">
-              <p className="text-sm font-medium text-foreground">{selectedImage.name}</p>
-              <p className="text-xs text-muted-foreground">
-                {(selectedImage.size / 1024 / 1024).toFixed(2)} MB
-              </p>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {selectedImages.map((image, index) => (
+                <div key={index} className="relative group">
+                  <div className="aspect-square overflow-hidden rounded-lg border bg-muted">
+                    <img
+                      src={URL.createObjectURL(image)}
+                      alt={`Retinal image ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <Button
+                    variant="destructive"
+                    size="icon"
+                    className="absolute top-2 right-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={() => onRemoveImage(index)}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                  <div className="mt-1 text-xs text-center">
+                    <p className="text-muted-foreground truncate">{image.name}</p>
+                    <p className="text-muted-foreground">
+                      {(image.size / 1024 / 1024).toFixed(2)} MB
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         ) : (
@@ -111,6 +128,7 @@ export const ImageUploader = ({ onImageSelect, selectedImage, onClearImage }: Im
               ref={fileInputRef}
               type="file"
               accept="image/*"
+              multiple
               onChange={handleFileSelect}
               className="hidden"
             />
