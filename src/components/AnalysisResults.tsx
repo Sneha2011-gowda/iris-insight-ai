@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, AlertTriangle, XCircle, Eye, Activity, BarChart3 } from "lucide-react";
+import { CheckCircle, AlertTriangle, XCircle, Eye, Activity } from "lucide-react";
+import { ClassificationReport } from "./ClassificationReport";
 
 interface Finding {
   condition: string;
@@ -113,40 +114,7 @@ export const AnalysisResults = ({ findings, overallRisk, isAnalyzing, metrics }:
       </Card>
 
       {/* Classification Metrics */}
-      {metrics && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5 text-primary" />
-              Classification Metrics
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="space-y-2">
-                <div className="text-sm text-muted-foreground">Accuracy</div>
-                <div className="text-2xl font-bold text-foreground">{metrics.accuracy}%</div>
-                <Progress value={metrics.accuracy} className="h-2" />
-              </div>
-              <div className="space-y-2">
-                <div className="text-sm text-muted-foreground">Precision</div>
-                <div className="text-2xl font-bold text-foreground">{metrics.precision}%</div>
-                <Progress value={metrics.precision} className="h-2" />
-              </div>
-              <div className="space-y-2">
-                <div className="text-sm text-muted-foreground">Recall</div>
-                <div className="text-2xl font-bold text-foreground">{metrics.recall}%</div>
-                <Progress value={metrics.recall} className="h-2" />
-              </div>
-              <div className="space-y-2">
-                <div className="text-sm text-muted-foreground">F1-Score</div>
-                <div className="text-2xl font-bold text-foreground">{metrics.f1Score}%</div>
-                <Progress value={metrics.f1Score} className="h-2" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      {metrics && <ClassificationReport metrics={metrics} />}
 
       {/* Detailed Findings */}
       <Card>
