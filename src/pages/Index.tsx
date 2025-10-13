@@ -3,11 +3,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SingleImageAnalysis } from "@/components/SingleImageAnalysis";
 import { BatchImageAnalysis } from "@/components/BatchImageAnalysis";
+import { ModelTraining } from "@/components/ModelTraining";
 import { Eye, Stethoscope, Brain, Shield } from "lucide-react";
 import sampleRetinalImage from "@/assets/sample-retinal-image.jpg";
 
 const Index = () => {
-  const [analysisMode, setAnalysisMode] = useState<"single" | "batch">("single");
+  const [analysisMode, setAnalysisMode] = useState<"single" | "batch" | "train">("single");
 
   const handleUseSample = () => {
     // Create a file object from the sample image
@@ -83,10 +84,11 @@ const Index = () => {
           </Card>
 
           {/* Analysis Mode Tabs */}
-          <Tabs value={analysisMode} onValueChange={(v) => setAnalysisMode(v as "single" | "batch")} className="w-full">
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
+          <Tabs value={analysisMode} onValueChange={(v) => setAnalysisMode(v as "single" | "batch" | "train")} className="w-full">
+            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3">
               <TabsTrigger value="single">Single Image Analysis</TabsTrigger>
               <TabsTrigger value="batch">Batch Analysis</TabsTrigger>
+              <TabsTrigger value="train">Train Model</TabsTrigger>
             </TabsList>
             
             <TabsContent value="single" className="mt-8">
@@ -95,6 +97,10 @@ const Index = () => {
             
             <TabsContent value="batch" className="mt-8">
               <BatchImageAnalysis onUseSample={handleUseSample} />
+            </TabsContent>
+            
+            <TabsContent value="train" className="mt-8">
+              <ModelTraining />
             </TabsContent>
           </Tabs>
         </div>
