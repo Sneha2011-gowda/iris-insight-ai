@@ -1,26 +1,10 @@
-import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { SingleImageAnalysis } from "@/components/SingleImageAnalysis";
-import { BatchImageAnalysis } from "@/components/BatchImageAnalysis";
-import { ModelTraining } from "@/components/ModelTraining";
-import { ClassificationReportTab } from "@/components/ClassificationReportTab";
-import { EyeDiseaseDictionary } from "@/components/EyeDiseaseDictionary";
-import { Eye, Stethoscope, Brain, Shield } from "lucide-react";
-import sampleRetinalImage from "@/assets/sample-retinal-image.jpg";
+import { Button } from "@/components/ui/button";
+import { Eye, Stethoscope, Brain, Shield, Upload, BarChart3, BookOpen, GraduationCap, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
-  const [analysisMode, setAnalysisMode] = useState<"single" | "batch" | "train" | "report" | "dictionary">("single");
-
-  const handleUseSample = () => {
-    // Create a file object from the sample image
-    fetch(sampleRetinalImage)
-      .then(res => res.blob())
-      .then(blob => {
-        const file = new File([blob], "sample-retinal-image.jpg", { type: "image/jpeg" });
-        // This will be handled by the respective component
-      });
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background">
@@ -85,36 +69,96 @@ const Index = () => {
             </CardContent>
           </Card>
 
-          {/* Analysis Mode Tabs */}
-          <Tabs value={analysisMode} onValueChange={(v) => setAnalysisMode(v as "single" | "batch" | "train" | "report" | "dictionary")} className="w-full">
-            <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-5">
-              <TabsTrigger value="single">Single Image</TabsTrigger>
-              <TabsTrigger value="batch">Batch Analysis</TabsTrigger>
-              <TabsTrigger value="train">Train Model</TabsTrigger>
-              <TabsTrigger value="report">Classification Report</TabsTrigger>
-              <TabsTrigger value="dictionary">Disease Dictionary</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="single" className="mt-8">
-              <SingleImageAnalysis onUseSample={handleUseSample} />
-            </TabsContent>
-            
-            <TabsContent value="batch" className="mt-8">
-              <BatchImageAnalysis onUseSample={handleUseSample} />
-            </TabsContent>
-            
-            <TabsContent value="train" className="mt-8">
-              <ModelTraining />
-            </TabsContent>
-            
-            <TabsContent value="report" className="mt-8">
-              <ClassificationReportTab />
-            </TabsContent>
-            
-            <TabsContent value="dictionary" className="mt-8">
-              <EyeDiseaseDictionary />
-            </TabsContent>
-          </Tabs>
+          {/* Features Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/analysis")}>
+              <CardContent className="pt-6">
+                <div className="space-y-4">
+                  <div className="p-3 rounded-lg bg-primary/10 w-fit">
+                    <Upload className="h-8 w-8 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg text-foreground mb-2">Single Image Analysis</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Upload and analyze individual retinal images for instant disease detection
+                    </p>
+                  </div>
+                  <Button variant="ghost" className="w-full group">
+                    Get Started
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/analysis")}>
+              <CardContent className="pt-6">
+                <div className="space-y-4">
+                  <div className="p-3 rounded-lg bg-primary/10 w-fit">
+                    <BarChart3 className="h-8 w-8 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg text-foreground mb-2">Batch Analysis</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Process multiple retinal images simultaneously for efficient screening
+                    </p>
+                  </div>
+                  <Button variant="ghost" className="w-full group">
+                    Get Started
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/analysis")}>
+              <CardContent className="pt-6">
+                <div className="space-y-4">
+                  <div className="p-3 rounded-lg bg-primary/10 w-fit">
+                    <GraduationCap className="h-8 w-8 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg text-foreground mb-2">Train Model</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Train custom AI models with your own labeled retinal image datasets
+                    </p>
+                  </div>
+                  <Button variant="ghost" className="w-full group">
+                    Get Started
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate("/analysis")}>
+              <CardContent className="pt-6">
+                <div className="space-y-4">
+                  <div className="p-3 rounded-lg bg-primary/10 w-fit">
+                    <BookOpen className="h-8 w-8 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg text-foreground mb-2">Disease Dictionary</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Comprehensive guide to eye diseases with symptoms and treatments
+                    </p>
+                  </div>
+                  <Button variant="ghost" className="w-full group">
+                    Get Started
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* CTA Button */}
+          <div className="text-center">
+            <Button size="lg" onClick={() => navigate("/analysis")} className="text-lg px-8 py-6">
+              Start Analysis Now
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
         </div>
       </main>
     </div>
