@@ -5,11 +5,12 @@ import { SingleImageAnalysis } from "@/components/SingleImageAnalysis";
 import { BatchImageAnalysis } from "@/components/BatchImageAnalysis";
 import { ModelTraining } from "@/components/ModelTraining";
 import { ClassificationReportTab } from "@/components/ClassificationReportTab";
+import { EyeDiseaseDictionary } from "@/components/EyeDiseaseDictionary";
 import { Eye, Stethoscope, Brain, Shield } from "lucide-react";
 import sampleRetinalImage from "@/assets/sample-retinal-image.jpg";
 
 const Index = () => {
-  const [analysisMode, setAnalysisMode] = useState<"single" | "batch" | "train" | "report">("single");
+  const [analysisMode, setAnalysisMode] = useState<"single" | "batch" | "train" | "report" | "dictionary">("single");
 
   const handleUseSample = () => {
     // Create a file object from the sample image
@@ -85,12 +86,13 @@ const Index = () => {
           </Card>
 
           {/* Analysis Mode Tabs */}
-          <Tabs value={analysisMode} onValueChange={(v) => setAnalysisMode(v as "single" | "batch" | "train" | "report")} className="w-full">
-            <TabsList className="grid w-full max-w-3xl mx-auto grid-cols-4">
+          <Tabs value={analysisMode} onValueChange={(v) => setAnalysisMode(v as "single" | "batch" | "train" | "report" | "dictionary")} className="w-full">
+            <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-5">
               <TabsTrigger value="single">Single Image</TabsTrigger>
               <TabsTrigger value="batch">Batch Analysis</TabsTrigger>
               <TabsTrigger value="train">Train Model</TabsTrigger>
               <TabsTrigger value="report">Classification Report</TabsTrigger>
+              <TabsTrigger value="dictionary">Disease Dictionary</TabsTrigger>
             </TabsList>
             
             <TabsContent value="single" className="mt-8">
@@ -107,6 +109,10 @@ const Index = () => {
             
             <TabsContent value="report" className="mt-8">
               <ClassificationReportTab />
+            </TabsContent>
+            
+            <TabsContent value="dictionary" className="mt-8">
+              <EyeDiseaseDictionary />
             </TabsContent>
           </Tabs>
         </div>
