@@ -26,8 +26,8 @@ export const ClassificationReportTab = () => {
   ];
 
   const genderDistribution = [
-    { gender: "Male", value: 52, fill: "hsl(var(--primary))" },
-    { gender: "Female", value: 48, fill: "hsl(var(--primary) / 0.7)" },
+    { name: "Male", value: 52, fill: "hsl(var(--primary))" },
+    { name: "Female", value: 48, fill: "hsl(var(--primary) / 0.7)" },
   ];
 
   const trainingHistory = [
